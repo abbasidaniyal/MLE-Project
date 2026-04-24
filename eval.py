@@ -124,7 +124,8 @@ def load_trained_model(model_path, num_labels, device, image_size):
         model: The model loaded on device. (If you are not using pytorch nn.Module directly, it is fine but make sure what it loads is compatible with the rest of the code.)
     """
 
-    model = CREATE_YOUR_MODEL_HERE(num_labels=num_labels) # Replace with your model creation function
+    model = models.resnet50(weights=None)
+    model.fc = nn.Linear(model.fc.in_features, num_labels)
 
     ## Change/rewrite the rest of the function as needed, but make sure what it outputs works with the other functions (e.g., predict)
 
@@ -278,9 +279,9 @@ if __name__ == "__main__":
     print("Model loaded successfully from:", args.model_path)
 
     # Evaluate the model on test data.
-    test_loss, test_accuracy = evaluate_model(model, test_loader, device, threshold=args.threshold)
-    print("Test Loss: {:.4f}, Test Accuracy: {:.2f}%".format(test_loss, test_accuracy * 100))
+    test_metrics = evaluate_model(model, test_loader, device, threshold=args.threshold)
 
+    print(f"Metrics: {test_metrics}")
     # Elapsed time.
     et = time.time()
     elapsed = et - st

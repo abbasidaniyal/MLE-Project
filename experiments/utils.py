@@ -165,19 +165,20 @@ def plot_per_class_examples(subset, label_order=None, per_class: int = 3):
             break
 
     fig, axes = plt.subplots(len(label_order), per_class,
-                             figsize=(3.2 * per_class, 2.0 * len(label_order)))
+                             figsize=(3.2 * per_class, 3.0 * len(label_order)))
     for r, label in enumerate(label_order):
         for c in range(per_class):
             ax = axes[r, c]
             if c < len(selected[label]):
                 img, target = selected[label][c]
                 ax.imshow(img)
-                ax.set_title(f"{label}\n{labels_to_text(target, label_order)}", fontsize=8)
+                # Show only the row label as title to avoid long multi-label strings overlapping
+                ax.set_title(label, fontsize=9, pad=4)
             else:
                 ax.text(0.5, 0.5, "N/A", ha="center", va="center")
             ax.axis("off")
-    plt.suptitle("Train examples — samples per class", fontsize=13)
-    plt.tight_layout()
+    plt.suptitle("Train examples — samples per class", fontsize=13, y=1.01)
+    plt.tight_layout(pad=0.5, h_pad=1.0, w_pad=0.3)
     plt.show()
 
 

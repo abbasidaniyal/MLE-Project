@@ -145,4 +145,4 @@ python eval.py \
 
 ## License
 
-This repository was developed for academic coursework. Contact the authors before reusing code or data outside the course context.
+This project was developed for **CAI6108: Machine Learning Engineering** at the **University of Florida**. The University of Florida and respective collaborators own all rights in this repository, including source code, models, and data. See [LICENSE](LICENSE) for terms of use. Contact the course instructional staff or UF for permissions beyond authorized course use.

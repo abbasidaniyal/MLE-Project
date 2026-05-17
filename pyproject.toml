@@ -3,6 +3,8 @@ name = "project"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
+license = "LicenseRef-UF-Proprietary"
+license-files = ["LICENSE"]
 requires-python = ">=3.13"
 dependencies = [
     "h5py>=3.16.0",

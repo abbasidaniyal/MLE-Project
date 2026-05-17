@@ -1,0 +1,51 @@
+Copyright (c) 2025–2026 University of Florida and respective collaborators.
+All rights reserved.
+
+This repository, including all source code, documentation, models, checkpoints,
+and data (collectively, the "Materials"), was developed in connection with the
+course CAI6108: Machine Learning Engineering at the University of Florida
+("UF").
+
+OWNERSHIP
+
+The Materials are owned by the University of Florida and the respective
+collaborators who contributed to this project. Nothing in this repository grants
+any license or other rights in the Materials except as expressly stated below
+or as authorized in writing by UF or the course instructors.
+
+PERMITTED USE
+
+You may view and use the Materials only for:
+
+  (a) participation in or administration of CAI6108 at UF, or
+  (b) other purposes expressly authorized in writing by UF or the course
+      instructors.
+
+RESTRICTIONS
+
+Without prior written permission from UF, you may not:
+
+  - copy, distribute, publish, sublicense, or sell the Materials;
+  - use the Materials for commercial purposes;
+  - use the dataset or any derivative dataset for training or evaluation outside
+    the authorized course context;
+  - remove or alter copyright, attribution, or ownership notices.
+
+THIRD-PARTY COMPONENTS
+
+Some dependencies and pretrained weights may be subject to separate licenses
+from their respective owners. Those licenses apply to those components only and
+do not affect UF's ownership of the Materials created for this project.
+
+DISCLAIMER
+
+THE MATERIALS ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. IN NO EVENT SHALL UF OR ITS
+COLLABORATORS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM
+USE OF THE MATERIALS.
+
+PERMISSIONS AND INQUIRIES
+
+For permissions beyond the permitted uses above, contact the University of
+Florida or the course instructional staff for CAI6108.

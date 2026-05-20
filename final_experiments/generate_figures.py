@@ -19,10 +19,9 @@ import matplotlib.gridspec as gridspec
 import torch
 
 sys.path.insert(0, ".")
-sys.path.insert(0, "./experiments")
 
 from eval import LABEL_ORDER, CustomDirectoryLayoutDataset
-from experiments.utils import (
+from utils import (
     set_seed, load_dataset, split_dataset,
     get_train_transform, get_eval_transform, build_dataloaders,
     compute_label_prevalence, NUM_LABELS,
@@ -75,13 +74,19 @@ COLOR_SEQ = plt.cm.tab20.colors          # 20 distinct colours
 # ─────────────────────────────────────────────────────────────────────────────
 def fig_per_class_gallery(subset, per_class: int = 2, save_path: Path = None):
     selected = {lbl: [] for lbl in LABEL_ORDER}
-    for image, target in subset:
-        target = target.int()
-        for i, lbl in enumerate(LABEL_ORDER):
-            if target[i] == 1 and len(selected[lbl]) < per_class:
-                selected[lbl].append(image.copy())
+    used = set()  # track indices already assigned to avoid reusing the same image
+    for idx in range(len(subset)):
         if all(len(v) >= per_class for v in selected.values()):
             break
+        if idx in used:
+            continue
+        image, target = subset[idx]
+        target_int = target.int()
+        for i, lbl in enumerate(LABEL_ORDER):
+            if target_int[i] == 1 and len(selected[lbl]) < per_class:
+                selected[lbl].append(image.copy())
+                used.add(idx)
+                break  # assign each image to at most one class
 
     # horizontal layout: one column per class, per_class image rows + 1 label row
     nrows   = per_class + 1   # +1 for the class-name header row

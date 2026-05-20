@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Multi-Label Object Classification
 
 A machine learning project for **multi-label image classification** developed as part of **CAI6108**. Given a photograph that may contain several everyday objects at once, the goal is to predict which of twelve object categories are present—each label is predicted independently, so a single image can activate any subset of classes.
@@ -146,3 +147,141 @@ python eval.py \
 ## License
 
 This project was developed for **CAI6108: Machine Learning Engineering** at the **University of Florida**. The University of Florida and respective collaborators own all rights in this repository, including source code, models, and data. See [LICENSE](LICENSE) for terms of use. Contact the course instructional staff or UF for permissions beyond authorized course use.
+=======
+# CAI6108 — Multi-Label Object Recognition (Group 10)
+
+Multi-label image classification across **12 object categories** using a ResNet-50 backbone trained with Asymmetric Loss, Weighted Sampling, Cosine Annealing, per-class threshold tuning, and Test-Time Augmentation (TTA).
+
+**Labels:** `pen`, `paper`, `book`, `clock`, `phone`, `laptop`, `chair`, `desk`, `bottle`, `keychain`, `backpack`, `calculator`
+
+---
+
+## Repository Structure
+
+```
+.
+├── eval.py                        # Official evaluation script (provided)
+├── utils.py                       # Shared utilities for all notebooks
+├── best_model.pth                 # Symlink → checkpoints/final_resnet50_scratch.pth
+├── pyproject.toml                 # Project dependencies (managed with uv)
+│
+├── final_experiments/             # All experiment notebooks
+│   ├── 01_data_and_baselines.ipynb
+│   ├── 02_small_cnn.ipynb
+│   ├── 03_vgg_scratch.ipynb
+│   ├── 04_vgg_pretrained.ipynb
+│   ├── 05_resnet50.ipynb
+│   ├── 06_mobilenetv2.ipynb
+│   ├── 07_efficientnet_b0.ipynb
+│   ├── 08_vit.ipynb
+│   ├── 09_finetuning.ipynb        # Transfer learning + ASL + TTA + threshold tuning
+│   ├── 10_end_to_end_finetuning.ipynb  # Final model — end-to-end training (best results)
+│   ├── generate_figures.py
+│   ├── generate_notebooks.py
+│   └── figures/                   # Generated plots and figures
+│
+├── checkpoints/                   # Saved model weights (.pth)
+│   ├── final_resnet50_scratch.pth # Best model (ResNet-50, end-to-end, ASL + TTA)
+│   └── ...                        # Other experiment checkpoints
+│
+└── data/
+    └── aggregated/                # Dataset — one sub-folder per label combination
+        ├── book/
+        ├── book_backpack/
+        └── ...
+```
+
+---
+
+## Setup
+
+### Requirements
+
+- Python ≥ 3.13
+- CUDA 12.8 (for GPU training; CPU also works)
+
+### Install with uv (recommended)
+
+```bash
+pip install uv          # if not already installed
+uv sync                 # installs all dependencies from pyproject.toml
+```
+
+### Install with pip
+
+```bash
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128
+pip install numpy pandas matplotlib scikit-learn scipy seaborn jupyter h5py imutils
+```
+
+---
+
+## Evaluation
+
+Run the official evaluation script against the test dataset:
+
+```bash
+python eval.py \
+    --model_path best_model.pth \
+    --test_data path/to/test_data \
+    --group_id 10 \
+    --project_title "Multi-Label Object Recognition" \
+    --image_size 224
+```
+
+The script loads the ResNet-50 checkpoint, runs inference, and reports:
+`loss`, `exact_match`, `hamming_acc`, `mean_iou`, `precision_micro`, `recall_micro`, `f1_micro`.
+
+---
+
+## Final Model
+
+**Architecture:** ResNet-50 (ImageNet pre-trained weights, fully fine-tuned)  
+**Checkpoint:** `checkpoints/final_resnet50_scratch.pth` (also accessible via `best_model.pth`)
+
+| Training technique | Detail |
+|--------------------|--------|
+| Loss | AsymmetricLoss (γ⁻=4, γ⁺=1, clip=0.05) |
+| Sampler | WeightedRandomSampler (up-samples rare label combos) |
+| Optimizer | AdamW (backbone lr=1e-4, head lr=5e-4, wd=1e-4) |
+| LR schedule | Cosine annealing with 3-epoch linear warm-up |
+| Precision | Mixed precision (torch.cuda.amp) |
+| TTA | 8 augmented views averaged at inference |
+| Thresholds | Per-class threshold tuning on validation set |
+| Early stopping | 10 epochs patience on val micro-F1 |
+
+See [final_experiments/10_end_to_end_finetuning.ipynb](final_experiments/10_end_to_end_finetuning.ipynb) for the full training pipeline.
+
+---
+
+## Notebooks Overview
+
+| Notebook | Description |
+|----------|-------------|
+| `01_data_and_baselines.ipynb` | Dataset exploration, label statistics, frequency baselines |
+| `02_small_cnn.ipynb` | Small custom CNN from scratch |
+| `03_vgg_scratch.ipynb` | VGG-style network from scratch |
+| `04_vgg_pretrained.ipynb` | VGG with ImageNet pre-training |
+| `05_resnet50.ipynb` | ResNet-50 transfer learning |
+| `06_mobilenetv2.ipynb` | MobileNetV2 transfer learning |
+| `07_efficientnet_b0.ipynb` | EfficientNet-B0 transfer learning |
+| `08_vit.ipynb` | Vision Transformer (ViT) from scratch |
+| `09_finetuning.ipynb` | ResNet-50 + ASL + TTA + per-class threshold tuning |
+| `10_end_to_end_finetuning.ipynb` | **Final model** — end-to-end training with all techniques |
+
+---
+
+## Data Format
+
+Images are organized under `data/aggregated/` with one folder per label combination (underscore-separated):
+
+```
+data/aggregated/
+├── book/
+├── book_backpack/
+├── book_bottle_calculator/
+└── ...
+```
+
+Each folder contains `.png` images named `img<id>.png`.
+>>>>>>> 7f4b85f (feat: changes)
